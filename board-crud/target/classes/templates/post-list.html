@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::section})}">
+<section>
+  <!-- 목록 본문 (그대로 유지) -->
+  <div style="display:flex; justify-content:space-between; align-items:center;">
+    <h2>게시글 목록</h2>
+    <a href="/posts/new" role="button">새 글</a>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th><th>제목</th><th>작성자</th><th>작성일</th><th>수정일</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="p : ${posts}">
+        <td th:text="${p.id}"></td>
+        <td><a th:href="@{'/posts/' + ${p.id}}" th:text="${p.title}"></a></td>
+        <td th:text="${p.author}"></td>
+        <td th:text="${#temporals.format(p.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+        <td th:text="${#temporals.format(p.updatedAt, 'yyyy-MM-dd HH:mm')}"></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+</html>

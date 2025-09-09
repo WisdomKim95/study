@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="layout(content)">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title th:text="${title} ?: 'Board'">Board</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
+  <style>
+    .container { max-width: 900px; margin: 2rem auto; }
+    textarea { min-height: 220px; }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <header>
+      <h1><a href="/posts">📋 Board</a></h1>
+    </header>
+
+    <section th:replace="${content}"></section>
+  </main>
+</body>
+<style>
+	.container { max-width: 900px; margin: 2rem auto; }
+	textarea { min-height: 220px; }
+
+	.button-group {
+	  display: flex;
+	  align-items: center;
+	  gap: 8px;
+	}
+	.button-group button,
+	.button-group a[role="button"] {
+	  margin: 0;
+	  width: auto;
+	  display: inline-flex;
+	  align-items: center;
+	}
+	
+	.action-bar {
+	  display: flex;
+	  align-items: center;
+	  gap: 8px;
+	}
+
+	.action-bar button,
+	.action-bar a[role="button"] {
+	  margin: 0;       
+	  width: auto;     
+	  display: inline-flex;
+	  align-items: center;
+
+	  min-height: 2.5rem;    
+	  padding: 0.5rem 1rem; 
+	}
+
+</style>
+</html>

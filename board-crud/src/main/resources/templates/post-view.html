@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::section})}">
+<section>
+  <h2 th:text="${post.title}"></h2>
+  <p>
+    <strong th:text="${post.author}"></strong>
+    <span style="color:#777;"> • </span>
+    <small>작성: <span th:text="${post.createdAt}"></span>, 수정: <span th:text="${post.updatedAt}"></span></small>
+  </p>
+  <article>
+    <pre th:text="${post.content}" style="white-space:pre-wrap;"></pre>
+  </article>
+  <form th:action="@{'/posts/' + ${post.id} + '/delete'}" method="post" class="action-bar" style="margin-top:1rem;">
+    <a th:href="@{'/posts/' + ${post.id} + '/edit'}" role="button">수정</a>
+    <button type="submit" class="secondary" onclick="return confirm('삭제하시겠습니까?');">삭제</button>
+    <a href="/posts" role="button" class="secondary">목록</a>
+  </form>
+</section>
+</html>

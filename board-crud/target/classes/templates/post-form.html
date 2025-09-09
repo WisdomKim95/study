@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::section})}">
+<section>
+  <h2 th:text="${mode} == 'create' ? '새 글쓰기' : '글 수정'"></h2>
+  <form th:action="${mode} == 'create' ? '/posts' : '/posts/' + ${id}" method="post" th:object="${post}">
+    <label>제목
+      <input type="text" th:field="*{title}" placeholder="제목" required maxlength="200"/>
+      <small th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></small>
+    </label>
+    <label>작성자
+      <input type="text" th:field="*{author}" placeholder="작성자" required maxlength="100"/>
+      <small th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></small>
+    </label>
+    <label>내용
+      <textarea th:field="*{content}" placeholder="내용" required></textarea>
+      <small th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></small>
+    </label>
+	<div class="button-group">
+	  <button type="submit">저장</button>
+	  <a href="/posts" role="button" class="secondary">목록</a>
+	</div>
+  </form>
+</section>
+</html>
