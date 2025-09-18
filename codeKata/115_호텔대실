@@ -1,0 +1,32 @@
+import java.util.*;
+
+class Solution {
+    public int solution(String[][] book_time) {
+        List<int[]> events = new ArrayList<>();
+
+        for (String[] bt : book_time) {
+            int start = toMin(bt[0]);
+            int end = toMin(bt[1]) + 10;
+            events.add(new int[]{start, 1}); 
+            events.add(new int[]{end, -1});
+        }
+
+        Collections.sort(events, (a, b) -> {
+            if (a[0] == b[0]) return a[1] - b[1];
+            return a[0] - b[0];
+        });
+
+        int current = 0, answer = 0;
+        for (int[] e : events) {
+            current += e[1];
+            answer = Math.max(answer, current);
+        }
+
+        return answer;
+    }
+
+    private int toMin(String hhmm) {
+        String[] parts = hhmm.split(":");
+        return Integer.parseInt(parts[0]) * 60 + Integer.parseInt(parts[1]);
+    }
+}
