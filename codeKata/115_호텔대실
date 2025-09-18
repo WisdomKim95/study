@@ -2,22 +2,35 @@ import java.util.*;
 
 class Solution {
     public int solution(String[][] book_time) {
-        List<int[]> events = new ArrayList<>();
+        List<int[]> checkInOut = new ArrayList<>();
 
+        //배열 시간을 입실 퇴실 형태로 변환
         for (String[] bt : book_time) {
-            int start = toMin(bt[0]);
-            int end = toMin(bt[1]) + 10;
-            events.add(new int[]{start, 1}); 
-            events.add(new int[]{end, -1});
+            int start = toMin(bt[0]); 
+            int end = toMin(bt[1]) + 10; // 청소 시간 추가
+            checkInOut.add(new int[]{start, 1});  // 입실
+            checkInOut.add(new int[]{end, -1});   // 퇴실
         }
+        
+        //정렬된 checkInOut 리스트 찍어보기
+        for (int[] e : checkInOut) {
+            System.out.println(Arrays.toString(e));
+        }   
 
-        Collections.sort(events, (a, b) -> {
-            if (a[0] == b[0]) return a[1] - b[1];
-            return a[0] - b[0];
+        // 입실 퇴실 정렬
+        Collections.sort(checkInOut, (a, b) -> {
+            if (a[0] == b[0]) {
+                // 동일시간 퇴실 먼저 처리
+                return Integer.compare(a[1], b[1]); 
+            } else {
+                // 빠른 순 정렬
+                return Integer.compare(a[0], b[0]);
+            }
         });
 
+        // 반복문 돌면서 사용 중인 객실 수 계산
         int current = 0, answer = 0;
-        for (int[] e : events) {
+        for (int[] e : checkInOut) {
             current += e[1];
             answer = Math.max(answer, current);
         }
@@ -25,8 +38,11 @@ class Solution {
         return answer;
     }
 
+    // "HH:MM" -> 분으로 변환
     private int toMin(String hhmm) {
-        String[] parts = hhmm.split(":");
-        return Integer.parseInt(parts[0]) * 60 + Integer.parseInt(parts[1]);
+        String[] temp = hhmm.split(":");
+        int hour = Integer.parseInt(temp[0]);
+        int min = Integer.parseInt(temp[1]);
+        return hour * 60 + min;
     }
 }
