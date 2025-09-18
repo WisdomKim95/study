@@ -46,3 +46,86 @@ class Solution {
         return hour * 60 + min;
     }
 }
+
+
+
+///////////////////////////////////////////////////////////////
+
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Main m = new Main();
+
+        String[][] book_time1 = {
+                {"15:00", "17:00"},
+                {"16:40", "18:20"},
+                {"14:20", "15:20"},
+                {"14:10", "19:20"},
+                {"18:20", "21:20"}
+        };
+        System.out.println(m.solution(book_time1));
+
+        String[][] book_time2 = {
+                {"09:10", "10:10"},
+                {"10:20", "12:20"}
+        };
+        System.out.println(m.solution(book_time2));
+
+        String[][] book_time3 = {
+                {"10:20", "12:30"},
+                {"10:20", "12:30"},
+                {"10:20", "12:30"}
+        };
+        System.out.println(m.solution(book_time3));
+    }
+
+    public int solution(String[][] book_time) {
+        List<int[]> checkInOut = new ArrayList<>();
+
+        //배열 시간에 따라 사용중인 객실 숫자 체크
+        for (String[] bt : book_time) {
+            int start = toMin(bt[0]);
+            int end = toMin(bt[1]) + 10; // 청소 시간 추가
+            checkInOut.add(new int[]{start, 1});  // 입실
+            checkInOut.add(new int[]{end, -1});   // 퇴실
+        }
+
+        for (int[] e : checkInOut) {
+            System.out.println(Arrays.toString(e));
+        }
+
+        // 입실 퇴실 정렬
+        Collections.sort(checkInOut, (a, b) -> {
+            if (a[0] == b[0]) {
+                // 동일시간 퇴실 먼저 처리
+                return Integer.compare(a[1], b[1]);
+            } else {
+                // 빠른 순 정렬
+                return Integer.compare(a[0], b[0]);
+            }
+        });
+
+        // 반복문 돌면서 사용 중인 객실 수 계산
+        int current = 0, answer = 0;
+        for (int[] e : checkInOut) {
+            current += e[1];
+            answer = Math.max(answer, current);
+        }
+
+        return answer;
+    }
+
+    // "HH:MM" -> 분으로 변환
+    private int toMin(String hhmm) {
+        String[] temp = hhmm.split(":");
+        int hour = Integer.parseInt(temp[0]);
+        int min = Integer.parseInt(temp[1]);
+        return hour * 60 + min;
+    }
+}
