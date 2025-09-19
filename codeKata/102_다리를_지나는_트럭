@@ -1,3 +1,4 @@
+
 import java.util.*;
 
 class Solution {
@@ -19,7 +20,7 @@ class Solution {
             //경과 시간 제어(1초 증가)
             time++;
 
-            // 다리를 한칸 밀기(poll을 사용해 큐의 가장 앞 원소 꺼내서 제거)
+            // 다리를 한칸 밀기(poll을 사용해 큐의 가장 앞 원소 꺼내서 계산 후 제거)
             bridgeWeight = bridgeWeight - bridge.poll();
 
             //다음 트럭 무게 입력
