@@ -1,0 +1,24 @@
+class Solution {
+    public long solution(int k, int d) {
+        long kk = k;         
+        long dd = d;
+        long d2 = dd * dd; 
+
+        long ans = 0;
+        for (long x = 0; x <= dd; x += kk) {
+            long remain = d2 - x * x;          // ≥ 0
+            long ymax = isqrt(remain);         // 정확 계산
+            ans += (ymax / kk) + 1;            // 0 포함
+        }
+        return ans;
+    }
+
+    private long isqrt(long n) {
+        long r = (long) Math.sqrt(n);
+
+        //(r^2 <= n < (r+1)^2
+        while ((r + 1) > 0 && (r + 1) * (r + 1) <= n) r++;
+        while (r * r > n) r--;
+        return r;
+    }
+}
