@@ -1,0 +1,61 @@
+import java.util.*;
+
+class Solution {
+    public long solution(int[] weights) {
+        Map<Integer, Long> map = new HashMap<>();
+        long result = 0;
+
+        for (int w : weights) {
+            // 1) 1:1
+            long same = map.getOrDefault(w, 0L);
+            result += same;
+
+            // 2) 2:1
+            if (w % 2 == 0) {
+                int x = w / 2;
+                long cnt = map.getOrDefault(x, 0L);
+                result += cnt;
+            }
+            // 2) 2:1
+            {
+                int x = w * 2;
+                long cnt = map.getOrDefault(x, 0L);
+                result += cnt;
+            }
+
+            // 3) 3:2
+            int twoW = w * 2;
+            if (twoW % 3 == 0) {
+                int x = twoW / 3;
+                long cnt = map.getOrDefault(x, 0L);
+                result += cnt;
+            }
+            // 3) 3:2
+            int threeW_over2_num = w * 3;
+            if (threeW_over2_num % 2 == 0) {
+                int x = threeW_over2_num / 2;
+                long cnt = map.getOrDefault(x, 0L);
+                result += cnt;
+            }
+
+            // 4) 4:3
+            int threeW = w * 3;
+            if (threeW % 4 == 0) {
+                int x = threeW / 4;
+                long cnt = map.getOrDefault(x, 0L);
+                result += cnt;
+            }
+            // 4) 4:3
+            int fourW = w * 4;
+            if (fourW % 3 == 0) {
+                int x = fourW / 3;
+                long cnt = map.getOrDefault(x, 0L);
+                result += cnt;
+            }
+
+            map.put(w, map.getOrDefault(w, 0L) + 1);
+        }
+        
+        return result;
+    }
+}
