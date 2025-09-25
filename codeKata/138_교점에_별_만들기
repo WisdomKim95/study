@@ -1,0 +1,69 @@
+import java.util.*;
+
+class Solution {
+    public String[] solution(int[][] line) {
+        List<long[]> starList = new ArrayList<>();
+
+        // 교점 구하기
+        for (int i = 0; i < line.length; i++) {
+            long A1 = line[i][0];
+            long B1 = line[i][1];
+            long C1 = line[i][2];
+
+            for (int j = i + 1; j < line.length; j++) {
+                long A2 = line[j][0];
+                long B2 = line[j][1];
+                long C2 = line[j][2];
+
+                //평행하여 교점 없는 경우 제외 하기 위한 공식 설정
+                long D = A1 * B2 - A2 * B1;
+                if (D == 0) continue;
+
+                //크래머 공식 계산식 셋팅
+                long nx = B1 * C2 - B2 * C1;
+                long ny = A2 * C1 - A1 * C2;
+
+                //정수 좌표인지 체크
+                if (nx % D != 0 || ny % D != 0) continue;
+
+                long x = nx / D;
+                long y = ny / D;
+                starList.add(new long[]{x, y});
+            }
+        }
+
+        // 교점 중 최대 최소 좌표 구하기
+        long minX = Long.MAX_VALUE;
+        long maxX = Long.MIN_VALUE;
+        long minY = Long.MAX_VALUE;
+        long maxY = Long.MIN_VALUE;
+
+        for (long[] p : starList) {
+            minX = Math.min(minX, p[0]);
+            maxX = Math.max(maxX, p[0]);
+            minY = Math.min(minY, p[1]);
+            maxY = Math.max(maxY, p[1]);
+        }
+
+        int width = (int)(maxX - minX + 1);
+        int height = (int)(maxY - minY + 1);
+
+        // 좌표 . 으로 초기화
+        char[][] board = new char[height][width];
+        for (char[] row : board) Arrays.fill(row, '.');
+
+        // 별 찍기
+        for (long[] p : starList) {
+            int r = (int)(maxY - p[1]);
+            int c = (int)(p[0] - minX);
+            board[r][c] = '*';
+        }
+
+        // 문자열 변환
+        String[] answer = new String[height];
+        for (int i = 0; i < height; i++) {
+            answer[i] = new String(board[i]);
+        }
+        return answer;
+    }
+}
